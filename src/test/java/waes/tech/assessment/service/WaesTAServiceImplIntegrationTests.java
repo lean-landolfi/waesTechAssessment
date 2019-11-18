@@ -17,12 +17,12 @@ public class WaesTAServiceImplIntegrationTests {
     private static final String INDEX = "wta-index";
     private static final Gson gson = new Gson();
 
-    @Rule
-    public ElasticsearchContainer container = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch-oss:7.4.2");
+    @ClassRule
+    public static final ElasticsearchContainer container = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch-oss:7.4.2");
     private WaesTAService waesTAService = new WaesTAServiceImpl(new ElasticSearchServiceImpl());
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         System.setProperty("wta.elasticsearch.host", container.getContainerIpAddress());
         System.setProperty("wta.elasticsearch.port", container.getFirstMappedPort() + "");
         // Start the container. This step might take some time...
@@ -40,8 +40,8 @@ public class WaesTAServiceImplIntegrationTests {
         }
     }
 
-    @After
-    public void tearDown() {
+    @AfterClass
+    public static void tearDown() {
         // Stop the container.
         container.stop();
     }
