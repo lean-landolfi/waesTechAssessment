@@ -7,6 +7,7 @@ import org.elasticsearch.action.index.*;
 import org.elasticsearch.action.support.replication.*;
 import org.elasticsearch.action.update.*;
 import org.elasticsearch.client.*;
+import org.elasticsearch.client.indices.*;
 import org.slf4j.*;
 import waes.tech.assessment.utils.*;
 
@@ -16,15 +17,26 @@ import java.util.*;
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
 import static org.slf4j.LoggerFactory.*;
 
+/**
+ * Elastic Search service that performs requested operations.
+ */
 @Singleton
 public class ElasticSearchService {
     private static final Logger LOG = getLogger(ElasticSearchService.class.getCanonicalName());
     private static final Gson gson = new Gson();
 
-    JsonObject search(String term) {
+    private static final String INDEX = "wta-index";
+
+    /**
+     * ID based search that returns the document as JsonObject.
+     *
+     * @param id The id to look for.
+     * @return The document stored in ES containing the decoded base64 data.
+     */
+    JsonObject search(String id) {
         try (RestHighLevelClient client = ESProvider.getESClient()) {
 
-            GetRequest getRequest = new GetRequest("test", term);
+            GetRequest getRequest = new GetRequest(INDEX, id);
             GetResponse getResponse = client.get(getRequest, RequestOptions.DEFAULT);
 
             return gson.fromJson(getResponse.getSourceAsString(), JsonObject.class);
@@ -34,14 +46,22 @@ public class ElasticSearchService {
         }
     }
 
+    /**
+     * Upserts document in ES and returns a string informing the upsert result.
+     *
+     * @param mapToIndex The document to index.
+     * @param id         Id of the document.
+     * @param side       Side of element. Can be left or right.
+     * @return A string that has information regarding the status of the upsert.
+     */
     String save(Map<String, Object> mapToIndex, String id, String side) {
         try (RestHighLevelClient client = ESProvider.getESClient()) {
             //Create an upsert statement to ensure that we attempt to create one element in ElasticSearch only if it doesn't exist or we update it if it does
-            IndexRequest insertRequest = new IndexRequest("test").id(id).source(jsonBuilder()
+            IndexRequest insertRequest = new IndexRequest(INDEX).id(id).source(jsonBuilder()
                     .startObject()
                     .field(side, mapToIndex)
                     .endObject());
-            UpdateRequest updateRequest = new UpdateRequest().index("test").id(id).doc(jsonBuilder()
+            UpdateRequest updateRequest = new UpdateRequest().index(INDEX).id(id).doc(jsonBuilder()
                     .startObject()
                     .field(side, mapToIndex)
                     .endObject())

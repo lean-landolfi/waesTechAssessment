@@ -34,7 +34,7 @@ public class WaesTAServiceImpl implements WaesTAService {
 
         Map<String, Object> mapToIndex = gson.fromJson(elementPart, Map.class); //Creating a map of one item in which the key is the side of the element
 
-        return elasticSearchService.save(mapToIndex, id, side);
+        return gson.toJson(elasticSearchService.save(mapToIndex, id, side));
     }
 
     /**
