@@ -10,7 +10,7 @@ public class WaesTechAssessmentApplication {
 
         Guice.createInjector(new Module() {
         })
-                .getInstance(MainController.class)
+                .getInstance(WaesTAController.class)
                 .run();
     }
 }

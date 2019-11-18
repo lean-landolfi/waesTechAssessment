@@ -7,6 +7,6 @@ public class Module extends AbstractModule {
     //Guice DI configuration
     @Override
     protected void configure() {
-        bind(MainController.class).in(Singleton.class);
+        bind(WaesTAController.class).in(Singleton.class);
     }
 }
