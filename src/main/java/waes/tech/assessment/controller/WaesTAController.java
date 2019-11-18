@@ -36,7 +36,7 @@ public class WaesTAController {
 
         //Element creation endpoints
         path("/v1/diff/:id", () -> {
-            //I'm assuming that the encoded data is coming as part of a JSON in which there is a key "data" and its value is base64 encoded information.
+            //I'm assuming that the encoded data is coming as part of a JSON in which there is a key "data" and its value is base64 encoded json with the data.
             post("/right", (request, response) -> {
                 JsonObject requestBody = gson.fromJson(request.body(), JsonObject.class);
                 String dataAsString = new String(Base64.decodeBase64(String.valueOf(requestBody.get("data"))));
