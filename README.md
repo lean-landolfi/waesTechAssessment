@@ -1,8 +1,9 @@
 # WaesTechAssessment
 
-Add environment variable "env=test" to run integration tests.
+Add environment variable **"env=test"** to run integration tests.  
 
-In order to run the application you'll need docker and have to run docker-compose up and you'll be good to go.
+In order to run the application you have to set the environment variable as **"env=prod"** you also need docker and to run 
+**docker-compose up** and you'll be good to go.
 Application is running against a containerized elasticsearch.
 
 Once the application is running, you should be able to start posting data to it and asking for a diff calculation only
