@@ -19,7 +19,7 @@ public class WaesTAServiceImplIntegrationTests {
 
     @Rule
     public ElasticsearchContainer container = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch-oss:7.4.2");
-    private WaesTAService waesTAService = new WaesTAServiceImpl(new ElasticSearchService());
+    private WaesTAService waesTAService = new WaesTAServiceImpl(new ElasticSearchServiceImpl());
 
     @Before
     public void setUp() {

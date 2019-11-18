@@ -30,6 +30,7 @@ public class WaesTAServiceImpl implements WaesTAService {
      * @param side        Side of the element. Either right or left.
      * @return String representing result of the upsert.
      */
+    @Override
     public String saveElement(JsonObject elementPart, String id, String side) {
 
         Map<String, Object> mapToIndex = gson.fromJson(elementPart, Map.class); //Creating a map of one item in which the key is the side of the element
@@ -43,6 +44,7 @@ public class WaesTAServiceImpl implements WaesTAService {
      * @param id element id
      * @return Diff of parts right and left of element with given id.
      */
+    @Override
     public String getDiffOfElementById(String id) {
         if (id == null || id.trim().isEmpty()) //Checking id validity
             return "Missing mandatory field id or id is empty.";
